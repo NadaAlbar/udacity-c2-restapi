@@ -28,7 +28,7 @@ function generateJWT(user: User): string {
 
 //
 export function requireAuth(req: Request, res: Response, next: NextFunction) {
-    return next();// this allows us to bypass this method for now and continue with the next method, the NextFunction is the Next Function in line that'll be processing in the body and performing the requests to save more info.
+    //return next();// this allows us to bypass this method for now and continue with the next method, the NextFunction is the Next Function in line that'll be processing in the body and performing the requests to save more info.
      if (!req.headers || !req.headers.authorization){ //we're checking if there is a request header and if it includes an auth header
          return res.status(401).send({ message: 'No authorization headers.' }); // so the entire flow is terminated bc no auth.
      }
