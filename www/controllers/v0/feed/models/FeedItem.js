@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_typescript_1 = require("sequelize-typescript");
+//our model is corresponding to a table within our postgres table. 
 let FeedItem = class FeedItem extends sequelize_typescript_1.Model {
     constructor() {
         super(...arguments);
@@ -27,12 +28,14 @@ __decorate([
 ], FeedItem.prototype, "url", void 0);
 __decorate([
     sequelize_typescript_1.Column,
-    sequelize_typescript_1.CreatedAt,
+    sequelize_typescript_1.CreatedAt //use Postgres interface to allow us to keep those up to date
+    ,
     __metadata("design:type", Date)
 ], FeedItem.prototype, "createdAt", void 0);
 __decorate([
     sequelize_typescript_1.Column,
-    sequelize_typescript_1.UpdatedAt,
+    sequelize_typescript_1.UpdatedAt // use Postgres interface to allow us to keep those up to date
+    ,
     __metadata("design:type", Date)
 ], FeedItem.prototype, "updatedAt", void 0);
 FeedItem = __decorate([

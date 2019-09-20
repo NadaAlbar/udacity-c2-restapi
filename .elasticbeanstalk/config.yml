@@ -1,4 +1,9 @@
 branch-defaults:
+  dev:
+    environment: udagram-albar-dev-dev
+    group_suffix: null
+  f-auth:
+    environment: udagram-albar-dev-dev
   ops-3-auth:
     environment: udacity-c2-restapi-dev
     group_suffix: null
@@ -9,9 +14,9 @@ environment-defaults:
     branch: null
     repository: null
 global:
-  application_name: udacity-c2-restapi
+  application_name: udagram-albar-dev
   branch: null
-  default_ec2_keyname: null
+  default_ec2_keyname: AWSKeys
   default_platform: Node.js
   default_region: us-east-2
   include_git_submodules: true

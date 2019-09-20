@@ -1,6 +1,6 @@
 import {Table, Column, Model, HasMany, PrimaryKey, CreatedAt, UpdatedAt, ForeignKey} from 'sequelize-typescript';
 import { User } from '../../users/models/User';
-
+//our model is corresponding to a table within our postgres table. 
 @Table
 export class FeedItem extends Model<FeedItem> {
   @Column
@@ -10,10 +10,10 @@ export class FeedItem extends Model<FeedItem> {
   public url!: string;
 
   @Column
-  @CreatedAt
+  @CreatedAt //use Postgres interface to allow us to keep those up to date
   public createdAt: Date = new Date();
 
   @Column
-  @UpdatedAt
+  @UpdatedAt // use Postgres interface to allow us to keep those up to date
   public updatedAt: Date = new Date();
 }

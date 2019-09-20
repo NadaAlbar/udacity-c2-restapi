@@ -1,16 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const AWS = require("aws-sdk");
-const config_1 = require("./config/config");
+const config_1 = require("./config/config"); // from our config file.
 const c = config_1.config.dev;
 //Configure AWS
-//TODO IF ENV IS DEV
-var credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
+var credentials = new AWS.SharedIniFileCredentials({ profile: c.aws_profile }); // profile:'default'
 AWS.config.credentials = credentials;
+//+++++
+if (c.aws_profile !== "DEPLOYED") {
+    var credentials = new AWS.SharedIniFileCredentials({ profile: c.aws_profile });
+    AWS.config.credentials = credentials;
+}
+//+++++
+/** Here we are using our interface within our AWS service to instantiate that service to use elsewhere  */
 exports.s3 = new AWS.S3({
     signatureVersion: 'v4',
     region: c.aws_reigion,
-    params: { Bucket: c.aws_media_bucket }
+    params: { Bucket: c.aws_media_bucket } // and the bucket. 
 });
 /* getGetSignedUrl generates an aws signed url to retreive an item
  * @Params
@@ -19,15 +25,26 @@ exports.s3 = new AWS.S3({
  *    a url as a string
  */
 function getGetSignedUrl(key) {
-    return 'https://s3-us-west-1.amazonaws.com/udacity-content/images/icon-error.svg';
-    // const signedUrlExpireSeconds = 60 * 5
-    // const url = s3.getSignedUrl('getObject', {
-    //     Bucket: feedUrlBucket,
-    //     Key: key,
-    //     Expires: signedUrlExpireSeconds
-    //   });
-    // return url;
-}
+    //--
+    const signedUrlExpireSeconds = 60 * 5;
+    const url = exports.s3.getSignedUrl('getObject', {
+        Bucket: c.aws_media_bucket,
+        Key: key,
+        Expires: signedUrlExpireSeconds
+    });
+    return url;
+    //-- instead of this block we can also do
+    /*
+    const param= {
+            Bucket: c.aws_media_bucket,
+            Key: key,
+            Expires: signedUrlExpireSeconds
+          }
+    onst url = s3.getSignedUrl('getObject', param);
+    return url;
+    
+    */
+} //-----
 exports.getGetSignedUrl = getGetSignedUrl;
 /* getPutSignedUrl generates an aws signed url to put an item
  * @Params
@@ -36,14 +53,13 @@ exports.getGetSignedUrl = getGetSignedUrl;
  *    a url as a string
  */
 function getPutSignedUrl(key) {
-    return 'wompwomp';
-    // const signedUrlExpireSeconds = 60 * 5
-    // const url = s3.getSignedUrl('putObject', {
-    //   Bucket: feedUrlBucket,
-    //   Key: key,
-    //   Expires: signedUrlExpireSeconds
-    // });
-    // return url;
+    const signedUrlExpireSeconds = 60 * 5;
+    const url = exports.s3.getSignedUrl('putObject', {
+        Bucket: c.aws_media_bucket,
+        Key: key,
+        Expires: signedUrlExpireSeconds
+    });
+    return url;
 }
 exports.getPutSignedUrl = getPutSignedUrl;
 //# sourceMappingURL=aws.js.map
